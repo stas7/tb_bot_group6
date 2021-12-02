@@ -41,3 +41,4 @@ ALTER TABLE "customer_meetings"
 ALTER TABLE "meetings"
     ADD FOREIGN KEY ("city_id") REFERENCES "cities" ("id");
 
+CREATE SEQUENCE "hibernate_sequence";
