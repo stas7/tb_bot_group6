@@ -14,6 +14,7 @@ final class CustomerEntity(
     var id: Long = 0,
 
     @ManyToMany
+    // TODO: CascadeType
     @JoinTable(
         name = "customer_meetings",
         joinColumns = [JoinColumn(name = "customer_id", referencedColumnName = "id")],
