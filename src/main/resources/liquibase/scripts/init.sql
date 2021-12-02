@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset rsbryanskiy:init
 CREATE TABLE "customers"
 (
     "id"               BIGSERIAL PRIMARY KEY,

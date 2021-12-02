@@ -7,13 +7,17 @@ import javax.persistence.*
 @Table(name = "meetings")
 final class MeetingEntity (
     @Id
-    val id: Long,
+//    @SequenceGenerator(name = "meeting_id_gen", initialValue = 1000)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "meeting_id_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    var id: Long = 0,
     val name: String,
 
-    @Column(name = "city_id")
+//    @Column(name = "city_id")
     @ManyToOne
-    @JoinColumn(name = "id")
+//    @JoinColumn(name = "id")
     val city: CityEntity,
+
     val address: String,
     @Column(name = "meeting_date", columnDefinition = "TIMESTAMP")
     val meetingDate: LocalDateTime,

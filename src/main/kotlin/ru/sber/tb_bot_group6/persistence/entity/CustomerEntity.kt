@@ -8,8 +8,9 @@ import javax.persistence.*
 @Table(name = "customers")
 final class CustomerEntity(
     @Id
-    @SequenceGenerator(name = "customer_id_gen", initialValue = 1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_gen")
+//    @SequenceGenerator(name = "customer_id_gen", initialValue = 1000)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "meeting_id_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var id: Long = 0,
 
     @ManyToMany
