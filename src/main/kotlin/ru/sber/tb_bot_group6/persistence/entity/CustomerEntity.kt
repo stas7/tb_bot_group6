@@ -19,18 +19,17 @@ final class CustomerEntity(
         joinColumns = [JoinColumn(name = "customer_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "meeting_id", referencedColumnName = "id")]
     )
-    val meetings: List<MeetingEntity> = listOf(),
+    val meetings: List<MeetingEntity> = mutableListOf(),
 
-//    @NaturalId
     // it's the state in final state machine
     @Enumerated(EnumType.ORDINAL)
-    val state: MachinesStateEnum,
+    var state: MachinesStateEnum,
 
 //    @NaturalId
     @Column(name = "telegram_name")
-    val telegramName: String?,
+    var telegramName: String,
 
 //    @NaturalId
     @Column(name = "telegram_chat_id")
-    val telegramChatId: Long?
+    var telegramChatId: Long
 )

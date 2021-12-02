@@ -20,5 +20,5 @@ data class RoleEntity(
     @JoinColumn(name = "meeting_id")
     val meeting: MeetingEntity,
 
-    val role: RoleEnum
+    var role: RoleEnum
 )

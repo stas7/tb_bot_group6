@@ -11,18 +11,18 @@ final class MeetingEntity (
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "meeting_id_gen")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var id: Long = 0,
-    val name: String?,
+    var name: String?,
 
 //    @Column(name = "city_id")
     @ManyToOne
     @JoinColumn(name = "city_id", referencedColumnName = "id")
-    val city: CityEntity?,
+    var city: CityEntity?,
 
-    val address: String?,
+    var address: String?,
     @Column(name = "meeting_date", columnDefinition = "TIMESTAMP")
-    val meetingDate: LocalDateTime?,
+    var meetingDate: LocalDateTime?,
 
     @ManyToMany(mappedBy = "meetings")
-    val customers: List<CustomerEntity> = listOf()
+    val customers: List<CustomerEntity> = mutableListOf()
 
 )
