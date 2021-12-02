@@ -25,7 +25,7 @@ CREATE TABLE "customer_meetings"
 (
     "customer_id" bigint,
     "meeting_id"  bigint,
-    "authority"   int,
+    "role"   int,
     PRIMARY KEY ("customer_id", "meeting_id")
 );
 
