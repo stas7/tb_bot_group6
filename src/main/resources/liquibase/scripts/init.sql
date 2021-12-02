@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset rsbryanskiy:init
 CREATE TABLE "customers"
 (
     "id"               BIGSERIAL PRIMARY KEY,
@@ -25,7 +28,7 @@ CREATE TABLE "customer_meetings"
 (
     "customer_id" bigint,
     "meeting_id"  bigint,
-    "authority"   int,
+    "role"   int,
     PRIMARY KEY ("customer_id", "meeting_id")
 );
 
@@ -38,3 +41,4 @@ ALTER TABLE "customer_meetings"
 ALTER TABLE "meetings"
     ADD FOREIGN KEY ("city_id") REFERENCES "cities" ("id");
 
+CREATE SEQUENCE "hibernate_sequence";
