@@ -5,7 +5,6 @@ import ru.sber.tb_bot_group6.persistence.key.CustomerMeetingKey
 import javax.persistence.*
 
 @Entity
-// is it going to work?
 @Table(name = "customer_meetings")
 data class RoleEntity(
     @EmbeddedId

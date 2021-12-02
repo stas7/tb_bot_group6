@@ -26,11 +26,11 @@ final class CustomerEntity(
     @Enumerated(EnumType.ORDINAL)
     val state: MachinesStateEnum,
 
-    @NaturalId
+//    @NaturalId
     @Column(name = "telegram_name")
-    val telegramName: String,
+    val telegramName: String?,
 
-    @NaturalId
+//    @NaturalId
     @Column(name = "telegram_chat_id")
-    val telegramChatId: Long
+    val telegramChatId: Long?
 )
