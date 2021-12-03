@@ -1,5 +1,6 @@
 package ru.sber.tb_bot_group6.telegram
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod
@@ -13,6 +14,9 @@ import ru.sber.tb_bot_group6.finalStateMachine.StubMessageProducer
 
 @Component
 class FrontBotComponent : TelegramLongPollingBot() {
+    @Autowired
+    lateinit var messageProducer: MessageProducer
+
     override fun getBotToken(): String {
         return "5030581530:AAEMEufEDu7mMCtcJdeFK5o6gLnZq7fnTgs"
     }
@@ -23,13 +27,7 @@ class FrontBotComponent : TelegramLongPollingBot() {
 
     override fun onUpdateReceived(update: Update) {
         println("update received")
-
-        val message: PartialBotApiMethod<Message>
-        // TODO: implement MessageProducer
-        val messageProducer: MessageProducer = StubMessageProducer()
-        message = messageProducer.produce(update)
-
-        when (message) {
+        when (val message: PartialBotApiMethod<Message> = messageProducer.produce(update)) {
             is SendMessage  ->  execute(message)
             is SendPhoto    ->  execute(message)
             is SendLocation ->  execute(message)
