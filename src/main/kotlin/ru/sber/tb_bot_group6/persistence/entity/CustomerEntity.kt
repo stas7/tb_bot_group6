@@ -13,14 +13,15 @@ final class CustomerEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var id: Long = 0,
 
-    @ManyToMany
+    // only EAGER works :(
+    @ManyToMany(fetch = FetchType.EAGER)
     // TODO: CascadeType
     @JoinTable(
         name = "customer_meetings",
         joinColumns = [JoinColumn(name = "customer_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "meeting_id", referencedColumnName = "id")]
     )
-    val meetings: List<MeetingEntity> = mutableListOf(),
+    val meetings: MutableList<MeetingEntity> = mutableListOf(),
 
     // it's the state in final state machine
     @Enumerated(EnumType.ORDINAL)
@@ -32,5 +33,15 @@ final class CustomerEntity(
 
 //    @NaturalId
     @Column(name = "telegram_chat_id")
-    var telegramChatId: Long
+    var telegramChatId: Long,
+
+    @JoinColumn(name = "current_city_id", referencedColumnName = "id")
+    @ManyToOne
+    var currentCity: CityEntity? = null,
+
+    @JoinColumn(name = "current_meeting_id", referencedColumnName = "id")
+    @ManyToOne
+    var currentMeeting: MeetingEntity? = null,
+
+
 )
