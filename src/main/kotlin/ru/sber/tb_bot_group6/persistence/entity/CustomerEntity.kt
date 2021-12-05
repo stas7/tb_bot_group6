@@ -2,6 +2,7 @@ package ru.sber.tb_bot_group6.persistence.entity
 
 import org.hibernate.annotations.NaturalId
 import ru.sber.tb_bot_group6.finalStateMachine.MachinesStateEnum
+import ru.sber.tb_bot_group6.finalStateMachine.StepCode
 import javax.persistence.*
 
 @Entity
@@ -24,7 +25,7 @@ final class CustomerEntity(
 
     // it's the state in final state machine
     @Enumerated(EnumType.ORDINAL)
-    var state: MachinesStateEnum,
+    var state: StepCode,
 
 //    @NaturalId
     @Column(name = "telegram_name")
