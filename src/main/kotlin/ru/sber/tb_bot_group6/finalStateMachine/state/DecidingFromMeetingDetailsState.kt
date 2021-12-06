@@ -106,11 +106,12 @@ class DecidingFromMeetingDetailsState : StateInterface {
                         when (stateInfoDTO.receivedText) {
                             // TODO: Deletion bug!
                             "Отменить встречу" -> {
-                                val roles = roleRepository.findByMeetingId(meeting.id)
-                                roleRepository.deleteAll(roles)
-                                meetingsRepository.delete(meeting)
-                                val message = SendMessage(stateInfoDTO.chatId.toString(), "Вы удалили встречу." +
-                                        "Информация о ней будет удалена у всех пользователей")
+//                                val roles = roleRepository.findByMeetingId(meeting.id)
+//                                roleRepository.deleteAll(roles)
+//                                meetingsRepository.delete(meeting)
+//                                val message = SendMessage(stateInfoDTO.chatId.toString(), "Вы удалили встречу." +
+//                                        "Информация о ней будет удалена у всех пользователей")
+                                val message = SendMessage(stateInfoDTO.chatId.toString(), "Извините, фича еще не реализована :(")
                                 message.replyMarkup = ReplyKeyboardMarkup
                                     .builder()
                                     .keyboardRow(
