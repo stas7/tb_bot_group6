@@ -44,7 +44,19 @@ class MeetingDetailsState : StateInterface {
 //        val customerId = customer.id
 
         if (meetingId == null) {
-            return SendMessage(stateInfoDTO.chatId.toString(), "Встречи с данным идентификатором не существует")
+            val message = SendMessage(stateInfoDTO.chatId.toString(), "Встречи с данным идентификатором не существует")
+            message.replyMarkup = ReplyKeyboardMarkup
+                .builder()
+                .keyboard(
+                    listOf(
+                        KeyboardRow(
+                            listOf(KeyboardButton("Главное Меню"))
+                        )
+                    )
+                )
+                .oneTimeKeyboard(true)
+                .build()
+            return message
         } else {
             val role = requireNotNull(roleRepository.findByCustomerIdAndMeetingId(customer.id, meetingId))
             val meeting = role.meeting
