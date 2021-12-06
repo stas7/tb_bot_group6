@@ -6,5 +6,5 @@ import ru.sber.tb_bot_group6.finalStateMachine.StateInfoDTO
 
 interface StateInterface {
     fun getAnswer(stateInfoDTO: StateInfoDTO): SendMessage
-    fun newState(stateInfoDTO: StateInfoDTO): MachinesStateEnum
+    fun changeState(stateInfoDTO: StateInfoDTO)
 }

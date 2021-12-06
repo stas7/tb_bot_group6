@@ -27,8 +27,9 @@ class StubMessageProducer : MessageProducer {
 @Component
 @Scope("singleton")
 class V1MessageProducer(
-    val customerRepository: CustomerRepository,
-    val stateComponents: Map<MachinesStateEnum, StateInterface>
+//    val customerRepository: CustomerRepository,
+    val stateComponents: Map<MachinesStateEnum, StateInterface>,
+    val stateProducer: StateProducer
 ) : MessageProducer {
 
     override fun produce(update: Update): PartialBotApiMethod<Message> {
@@ -36,19 +37,10 @@ class V1MessageProducer(
         val tgName = update.message.from.userName
         val receivedText = update.message.text
 
-        var customerFromRepository: CustomerEntity? = customerRepository.findByTelegramChatId(chatId)
-        var state: MachinesStateEnum
-
-        if (customerFromRepository == null) {
-            state = MachinesStateEnum.INIT
-            customerFromRepository = customerRepository.save(CustomerEntity(state = state, telegramChatId = chatId, telegramName = tgName))
-        } else {
-            state = customerFromRepository.state
-        }
+        var state = stateProducer.getState(StateInfoDTO(chatId, receivedText, tgName = tgName))
 
         val message = stateComponents[state]!!.getAnswer(StateInfoDTO(chatId, receivedText))
-        customerFromRepository.state = stateComponents[state]!!.newState(StateInfoDTO(chatId, receivedText))
-        customerRepository.save(customerFromRepository)
+        stateComponents[state]!!.changeState(StateInfoDTO(chatId, receivedText))
 
         return message
     }

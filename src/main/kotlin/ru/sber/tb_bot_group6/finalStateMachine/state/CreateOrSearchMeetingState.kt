@@ -1,6 +1,7 @@
 package ru.sber.tb_bot_group6.finalStateMachine.state
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import ru.sber.tb_bot_group6.finalStateMachine.MachinesStateEnum
@@ -12,6 +13,8 @@ import ru.sber.tb_bot_group6.persistence.repository.MeetingRepository
 import ru.sber.tb_bot_group6.persistence.repository.RoleRepository
 
 @Component
+@Scope("singleton")
+
 class CreateOrSearchMeetingState : StateInterface {
     @Autowired
     lateinit var failureState: FailureState
@@ -67,8 +70,9 @@ class CreateOrSearchMeetingState : StateInterface {
         }
     }
 
-    override fun newState(stateInfoDTO: StateInfoDTO): MachinesStateEnum {
-        return when (stateInfoDTO.receivedText) {
+    override fun changeState(stateInfoDTO: StateInfoDTO) {
+        val customer = requireNotNull(customerRepository.findByTelegramChatId(stateInfoDTO.chatId))
+        customer.state =  when (stateInfoDTO.receivedText) {
             "Создание Встречи" -> {
                 MachinesStateEnum.MEETING_CREATION_NAME
             }
@@ -76,8 +80,10 @@ class CreateOrSearchMeetingState : StateInterface {
                 MachinesStateEnum.LIST_MEETINGS_IN_CITY
             }
             else -> {
-                failureState.newState(stateInfoDTO)
+                MachinesStateEnum.INIT
             }
         }
+        val resultingCustomer = customerRepository.save(customer)
+        println("------>$resultingCustomer")
     }
 }

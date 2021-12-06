@@ -1,6 +1,7 @@
 package ru.sber.tb_bot_group6.finalStateMachine.state
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup
@@ -12,6 +13,7 @@ import ru.sber.tb_bot_group6.persistence.repository.CityRepository
 import ru.sber.tb_bot_group6.persistence.repository.CustomerRepository
 
 @Component
+@Scope("singleton")
 class ChoosingCityState : StateInterface {
 
     @Autowired
@@ -22,6 +24,7 @@ class ChoosingCityState : StateInterface {
 
     @Autowired
     lateinit var failureState: FailureState
+
 
     fun checkCorrectness(s: String): Long? {
         val slicedS = s.slice(1 until s.length)
@@ -36,6 +39,8 @@ class ChoosingCityState : StateInterface {
         }
     }
 
+
+
     override fun getAnswer(stateInfoDTO: StateInfoDTO): SendMessage {
         val text = stateInfoDTO.receivedText
         val cityId = checkCorrectness(text)
@@ -49,6 +54,7 @@ class ChoosingCityState : StateInterface {
             println("City from db = ${ customer.currentCity }")
             val customerFromRepo = customerRepository.save(customer)
             println("Customer ciry inside db = ${customerFromRepo.currentCity}")
+            customerRepository.flush()
         }
 
         val message = SendMessage(stateInfoDTO.chatId.toString(), "Выберите функционал:")
@@ -64,15 +70,19 @@ class ChoosingCityState : StateInterface {
         return message
     }
 
-    override fun newState(stateInfoDTO: StateInfoDTO): MachinesStateEnum {
+    override fun changeState(stateInfoDTO: StateInfoDTO){
         val text = stateInfoDTO.receivedText
         val cityId = checkCorrectness(text)
+        val customer = requireNotNull(customerRepository.findByTelegramChatId(stateInfoDTO.chatId))
 
-        if (cityId == null) {
-            return failureState.newState(stateInfoDTO)
+        customer.state = if (cityId == null) {
+            MachinesStateEnum.INIT
+        } else {
+            MachinesStateEnum.CREATE_OR_SEARCH_MEETING
         }
 
-        return MachinesStateEnum.CREATE_OR_SEARCH_MEETING
+        val resultingCustomer = customerRepository.save(customer)
+        println("------>$resultingCustomer")
     }
 
 }

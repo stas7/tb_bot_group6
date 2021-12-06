@@ -1,6 +1,7 @@
 package ru.sber.tb_bot_group6.finalStateMachine.state
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup
@@ -16,6 +17,8 @@ import java.time.format.FormatStyle
 import java.util.*
 
 @Component
+@Scope("singleton")
+
 class MeetingCreationDateTimeState : StateInterface{
     @Autowired
     lateinit var customerRepository: CustomerRepository
@@ -25,7 +28,7 @@ class MeetingCreationDateTimeState : StateInterface{
         val currentMeeting = requireNotNull(customerRepository.findByTelegramChatId(stateInfoDTO.chatId)
             ?.currentMeeting)
         currentMeeting.meetingDate = LocalDateTime.parse(stateInfoDTO.receivedText,
-            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
+            DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
         meetingRepository.save(currentMeeting)
 
         val message = SendMessage(stateInfoDTO.chatId.toString(),
@@ -43,8 +46,11 @@ class MeetingCreationDateTimeState : StateInterface{
         return message
     }
 
-    override fun newState(stateInfoDTO: StateInfoDTO): MachinesStateEnum {
-        return MachinesStateEnum.MEETING_DETAILS
+    override fun changeState(stateInfoDTO: StateInfoDTO) {
+        val customer = requireNotNull(customerRepository.findByTelegramChatId(stateInfoDTO.chatId))
+        customer.state = MachinesStateEnum.MEETING_DETAILS
+        val resultingCustomer = customerRepository.save(customer)
+        println("------>$resultingCustomer")
     }
 
 }

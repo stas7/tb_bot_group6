@@ -10,6 +10,8 @@ import ru.sber.tb_bot_group6.persistence.key.CustomerMeetingKey
 import java.util.*
 
 @Repository
+@Transactional
+
 interface CustomerRepository : JpaRepository<CustomerEntity, Long> {
     fun findByTelegramChatId(telegramChatId: Long): CustomerEntity?
 }

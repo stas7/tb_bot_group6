@@ -35,12 +35,12 @@ final class CustomerEntity(
     @Column(name = "telegram_chat_id")
     var telegramChatId: Long,
 
-    @JoinColumn(name = "current_city_id", referencedColumnName = "id")
     @ManyToOne
+    @JoinColumn(name = "current_city_id", referencedColumnName = "id")
     var currentCity: CityEntity? = null,
 
-    @JoinColumn(name = "current_meeting_id", referencedColumnName = "id")
     @ManyToOne
+    @JoinColumn(name = "current_meeting_id", referencedColumnName = "id")
     var currentMeeting: MeetingEntity? = null,
 
 
