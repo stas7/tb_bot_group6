@@ -1,0 +1,1 @@
+web: java -jar target/tb_bot_group6-1.0.jar -p $PORT
