@@ -1,1 +1,1 @@
-web: java -jar target/tb_bot_group6-0.0.1-SNAPSHOT.jar -p $PORT
+worker: java -jar target/tb_bot_group6-0.0.1-SNAPSHOT.jar -p $PORT
