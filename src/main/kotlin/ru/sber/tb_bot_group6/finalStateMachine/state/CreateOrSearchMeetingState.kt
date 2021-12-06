@@ -43,9 +43,13 @@ class CreateOrSearchMeetingState : StateInterface {
                         meetingDate = null
                     )
                 )
+                val rolesToRestore = roleRepository.findByCustomerId(customer.id)
+
                 customer.currentMeeting = newMeeting
                 customer.meetings.add(newMeeting)
                 customerRepository.save(customer)
+
+                roleRepository.saveAll(rolesToRestore)
 
                 val role = requireNotNull(roleRepository.findByCustomerIdAndMeetingId(customer.id, newMeeting.id))
                 role.role = RoleEnum.CREATOR
