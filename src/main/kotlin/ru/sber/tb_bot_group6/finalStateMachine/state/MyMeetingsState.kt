@@ -26,7 +26,7 @@ class MyMeetingsState : StateInterface {
         val meetingsSting = (meetingsCreated + meetingsSubscribed)
             .map { "${ it.meeting.name } : /${ it.meeting.id }" }
             .joinToString("\n")
-        return SendMessage(stateInfoDTO.chatId.toString(), "Choose meeting:\n $meetingsSting")
+        return SendMessage(stateInfoDTO.chatId.toString(), "Выберите встречу:\n $meetingsSting")
     }
 
     override fun changeState(stateInfoDTO: StateInfoDTO) {

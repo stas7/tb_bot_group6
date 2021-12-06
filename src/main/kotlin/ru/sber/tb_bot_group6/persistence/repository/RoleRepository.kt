@@ -20,5 +20,6 @@ interface RoleRepository : JpaRepository<RoleEntity, CustomerMeetingKey> {
     fun findByCustomerIdAndRole(customerId: Long, role: RoleEnum): List<RoleEntity>
     fun findByCustomerId(customerId: Long): List<RoleEntity>
     fun findByCustomerIdAndMeetingId(customerId: Long, meetingId: Long): RoleEntity?
+    fun findByMeetingId(meetingId: Long): List<RoleEntity>
 
 }
