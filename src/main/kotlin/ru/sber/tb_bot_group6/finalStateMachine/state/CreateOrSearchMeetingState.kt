@@ -77,7 +77,7 @@ class CreateOrSearchMeetingState : StateInterface {
                 MachinesStateEnum.MEETING_CREATION_NAME
             }
             "Поиск Встречи" -> {
-                MachinesStateEnum.LIST_MEETINGS_IN_CITY
+                MachinesStateEnum.MEETING_DETAILS
             }
             else -> {
                 MachinesStateEnum.INIT

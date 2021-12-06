@@ -31,10 +31,12 @@ class StateBeanConfig {
     lateinit var meetingCreationDateTimeState: MeetingCreationDateTimeState
     @Autowired
     lateinit var listMeetingsInCityState: ListMeetingsInCityState
+    @Autowired
+    lateinit var decidingFromMeetingDetailsState: DecidingFromMeetingDetailsState
 
 
     @Bean
-    public fun stateComponents(): Map<MachinesStateEnum, StateInterface> {
+    fun stateComponents(): Map<MachinesStateEnum, StateInterface> {
         return mapOf(MachinesStateEnum.INIT to initState,
             MachinesStateEnum.FAILED to failureState,
             MachinesStateEnum.DECIDING_FROM_INIT to decidingFromInitState,
@@ -46,7 +48,8 @@ class StateBeanConfig {
             MachinesStateEnum.MEETING_CREATION_NAME to meetingCreationNameState,
             MachinesStateEnum.MEETING_CREATION_ADDRESS to meetingCreationAddressState,
             MachinesStateEnum.MEETING_CREATION_DATETIME to meetingCreationDateTimeState,
-            MachinesStateEnum.LIST_MEETINGS_IN_CITY to listMeetingsInCityState
+            MachinesStateEnum.LIST_MEETINGS_IN_CITY to listMeetingsInCityState,
+            MachinesStateEnum.DECIDING_FROM_MEETING_DETAILS to decidingFromMeetingDetailsState
         )
 
 
